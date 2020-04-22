@@ -13,11 +13,19 @@ node {
     def SF_INSTANCE_URL = env.SF_INSTANCE_URL ?: "https://login.salesforce.com"
 
     def toolbelt = tool 'toolbelt'
+    
+    println 'KEY IS' 
+    println SF_CONSUMER_KEY
+    println SF_USERNAME
+    println SERVER_KEY_CREDENTALS_ID
+    println SF_INSTANCE_URL
 
 
     // -------------------------------------------------------------------------
     // Check out code from source control.
     // -------------------------------------------------------------------------
+    
+    println 'before checkout source'
 
     stage('checkout source') {
         checkout scm
@@ -28,6 +36,8 @@ node {
     // Run all the enclosed stages with access to the Salesforce
     // JWT key credentials.
     // -------------------------------------------------------------------------
+    println 'before with Env'
+    
     
     withEnv(["HOME=${env.WORKSPACE}"]) {
         
@@ -42,6 +52,7 @@ node {
                 if (rc != 0) {
                     error 'Salesforce dev hub org authorization failed.'
                 }
+                println rc
             }
 
 
